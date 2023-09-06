@@ -161,7 +161,7 @@ class Collect3D(object):
         for key in self.meta_keys:
             if key in results:
                 img_metas[key] = results[key]
-
+        #import ipdb; ipdb.set_trace()
         data['img_metas'] = DC(img_metas, cpu_only=True)
         for key in self.keys:
             data[key] = results[key]
@@ -214,7 +214,7 @@ class DefaultFormatBundle3D(DefaultFormatBundle):
             if key not in results:
                 continue
             results[key] = DC(to_tensor(results[key]), stack=False)
-
+        #import ipdb; ipdb.set_trace()
         if self.with_gt:
             # Clean GT bboxes in the final
             if 'gt_bboxes_3d_mask' in results:

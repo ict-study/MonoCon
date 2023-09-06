@@ -626,6 +626,7 @@ class LoadAnnotations3D(LoadAnnotations):
                 semantic segmentation annotations.
         """
         results = super().__call__(results)
+        #import ipdb; ipdb.set_trace()
         if self.with_bbox_3d:
             results = self._load_bboxes_3d(results)
             if results is None:

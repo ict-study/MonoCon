@@ -230,6 +230,7 @@ class CameraInstance3DBoxes(BaseInstance3DBoxes):
             torch.Tensor, numpy.ndarray or None: Flipped points.
         """
         assert bev_direction in ('horizontal', 'vertical')
+        #import ipdb; ipdb.set_trace()
         if bev_direction == 'horizontal':
             self.tensor[:, 0::7] = -self.tensor[:, 0::7]
             if self.with_yaw:

@@ -7,29 +7,32 @@ from skimage import io
 
 
 def get_image_index_str(img_idx, use_prefix_id=False):
-    if use_prefix_id:
-        return '{:07d}'.format(img_idx)
-    else:
-        return '{:06d}'.format(img_idx)
+    #if use_prefix_id:
+    #    return '{:07d}'.format(img_idx)
+    #else:
+        #return '{:06d}'.format(img_idx)
+        return img_idx
 
 
 def get_kitti_info_path(idx,
                         prefix,
                         info_type='image_2',
-                        file_tail='.png',
+                        file_tail='.jpg',
                         training=True,
                         relative_path=True,
                         exist_check=True,
                         use_prefix_id=False):
     img_idx_str = get_image_index_str(idx, use_prefix_id)
+    #print(img_idx_str)
+    #print(file_tail)
     img_idx_str += file_tail
     prefix = Path(prefix)
     if training:
-        file_path = Path('training') / info_type / img_idx_str
+        file_path = Path(info_type) / img_idx_str
     else:
         file_path = Path('testing') / info_type / img_idx_str
     if exist_check and not (prefix / file_path).exists():
-        raise ValueError('file not exist: {}'.format(file_path))
+        raise ValueError('file not exist: {}'.format(prefix/file_path))
     if relative_path:
         return str(file_path)
     else:
@@ -43,7 +46,7 @@ def get_image_path(idx,
                    exist_check=True,
                    info_type='image_2',
                    use_prefix_id=False):
-    return get_kitti_info_path(idx, prefix, info_type, '.png', training,
+    return get_kitti_info_path(idx, prefix, 'image', '.jpg', training,
                                relative_path, exist_check, use_prefix_id)
 
 
@@ -52,7 +55,7 @@ def get_label_path(idx,
                    training=True,
                    relative_path=True,
                    exist_check=True,
-                   info_type='label_2',
+                   info_type='label',
                    use_prefix_id=False):
     return get_kitti_info_path(idx, prefix, info_type, '.txt', training,
                                relative_path, exist_check, use_prefix_id)
@@ -181,29 +184,33 @@ def get_kitti_image_info(path,
 
     def map_func(idx):
         info = {}
-        pc_info = {'num_features': 4}
+        #pc_info = {'num_features': 4}
         calib_info = {}
 
         image_info = {'image_idx': idx}
         annotations = None
-        if velodyne:
-            pc_info['velodyne_path'] = get_velodyne_path(
-                idx, path, training, relative_path)
+        #if velodyne:
+        #    pc_info['velodyne_path'] = get_velodyne_path(
+        #        idx, path, training, relative_path)
         image_info['image_path'] = get_image_path(idx, path, training,
                                                   relative_path)
         if with_imageshape:
             img_path = image_info['image_path']
             if relative_path:
                 img_path = str(root_path / img_path)
+            #print(img_path)
+        
             image_info['image_shape'] = np.array(
                 io.imread(img_path).shape[:2], dtype=np.int32)
+        
+                #print("11")
         if label_info:
             label_path = get_label_path(idx, path, training, relative_path)
             if relative_path:
                 label_path = str(root_path / label_path)
             annotations = get_label_anno(label_path)
         info['image'] = image_info
-        info['point_cloud'] = pc_info
+        #info['point_cloud'] = pc_info
         if calib:
             calib_path = get_calib_path(
                 idx, path, training, relative_path=False)
