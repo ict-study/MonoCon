@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'KittiMonoDatasetMonoCon'
-data_root = 'data/kitti/'
+data_root = '/mnt/vepfs/Perception/perception-public/PublicDataset/kitti_copy/kitti_object_detection/'
 class_names = ['Pedestrian', 'Cyclist', 'Car']
 input_modality = dict(
     use_lidar=False,
@@ -106,4 +106,4 @@ data = dict(
         modality=input_modality,
         test_mode=True,
         box_type_3d='Camera'))
-evaluation = dict(interval=5)
+evaluation = dict(interval=1)

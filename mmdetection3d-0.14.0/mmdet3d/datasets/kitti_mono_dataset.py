@@ -362,9 +362,9 @@ class KittiMonoDataset(NuScenesMonoDataset):
                                 loc[idx][2], anno['rotation_y'][idx],
                                 anno['score'][idx]),
                             file=f)
-
+            #import ipdb; ipdb.set_trace()
             annos[-1]['sample_idx'] = np.array(
-                [sample_idx] * len(annos[-1]['score']), dtype=np.int64)
+                [sample_idx] * len(annos[-1]['score']), dtype=np.str_)
 
             det_annos += annos
 
@@ -450,7 +450,7 @@ class KittiMonoDataset(NuScenesMonoDataset):
                 annos.append(anno)
 
             annos[-1]['sample_idx'] = np.array(
-                [sample_idx] * num_example, dtype=np.int64)
+                [sample_idx] * num_example, dtype=np.str_)
             det_annos += annos
 
         if pklfile_prefix is not None:

@@ -541,9 +541,12 @@ def post_process_coords(
 
     if polygon_from_2d_box.intersects(img_canvas):
         img_intersection = polygon_from_2d_box.intersection(img_canvas)
-        intersection_coords = np.array(
-            [coord for coord in img_intersection.exterior.coords])
-
+        ## this is modified
+        try:
+            intersection_coords = np.array(
+                [coord for coord in img_intersection.exterior.coords])
+        except:
+            return None
         min_x = min(intersection_coords[:, 0])
         min_y = min(intersection_coords[:, 1])
         max_x = max(intersection_coords[:, 0])

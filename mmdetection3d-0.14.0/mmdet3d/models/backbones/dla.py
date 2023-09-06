@@ -252,8 +252,10 @@ class DLA(nn.Module):
         if name.endswith('.pth'):
             model_weights = torch.load(data + name)
         else:
-            model_url = get_model_url(data, name, hash)
-            model_weights = model_zoo.load_url(model_url)
+            # model_url = get_model_url(data, name, hash)
+            # model_weights = model_zoo.load_url(model_url)
+            model_weights = "/root/code/MonoCon/mmdetection3d-0.14.0/checkpoints/dla34-ba72cf86.pth"
+            model_weights = torch.load(model_weights)
         self.load_state_dict(model_weights, strict=False)
 
     def _make_conv_level(self, inplanes, planes, convs, stride=1, dilation=1,

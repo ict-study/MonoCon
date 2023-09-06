@@ -20,10 +20,9 @@ PI = np.pi
 
 @HEADS.register_module()
 class MonoConHeadInference(MonoConHead):
-    def __init__(self,
-                 *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(MonoConHeadInference, self).__init__(*args, **kwargs)
-	self.pred_bbox2d = False
+        self.pred_bbox2d = False
         self.wh_head = None
         self.offset_head = None
         self.kpt_heatmap_head = None

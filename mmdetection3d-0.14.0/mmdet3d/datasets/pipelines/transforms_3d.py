@@ -1389,26 +1389,28 @@ class RandomFlipMonoCon(RandomFlip):
         cam[0, 2] = w - cam[0, 2] - 1
         cam[0, 3] = - cam[0, 3]
         input_dict['cam_intrinsic'] = cam
-
+        #import ipdb; ipdb.set_trace()
         if len(input_dict['bbox3d_fields']) == 0:  # test mode
             input_dict['bbox3d_fields'].append('empty_box3d')
             input_dict['empty_box3d'] = input_dict['box_type_3d'](
                 np.array([], dtype=np.float32))
+        #import ipdb; ipdb.set_trace()
         for key in input_dict['bbox3d_fields']:
             if 'points' in input_dict:
                 input_dict['points'] = input_dict[key].flip(
                     direction, points=input_dict['points'])
             if 'gt_bboxes_3d' in input_dict:
+                #import ipdb; ipdb.set_trace()
                 box_3d = input_dict['gt_bboxes_3d']
                 box_3d.flip(direction)
                 input_dict[key] = box_3d
-
+        #import ipdb; ipdb.set_trace()
         if 'centers2d' in input_dict:
             assert self.sync_2d is True and direction == 'horizontal', \
                 'Only support sync_2d=True and horizontal flip with images'
             w = input_dict['img_shape'][1]
             input_dict['centers2d'][..., 0] = w - input_dict['centers2d'][..., 0] - 1
-
+        #import ipdb; ipdb.set_trace()
         if 'gt_kpts_2d' in input_dict:
             w = input_dict['img_shape'][1]
 
@@ -1420,7 +1422,7 @@ class RandomFlipMonoCon(RandomFlip):
                 gt_kpts_2d = gt_kpts_2d.reshape(num_box, -1, 2)
                 gt_kpts_2d[:, [0, 1, 2, 3, 4, 5, 6, 7]] = gt_kpts_2d[:, [1, 0, 3, 2, 5, 4, 7, 6]]
                 input_dict['gt_kpts_2d'] = gt_kpts_2d.reshape(num_box, -1)
-
+        #import ipdb; ipdb.set_trace()
     def __call__(self, input_dict):
         """Call function to flip points, values in the ``bbox3d_fields`` and \
         also flip 2D image and its annotations.
@@ -1435,7 +1437,7 @@ class RandomFlipMonoCon(RandomFlip):
         """
         # filp 2D image and its annotations
         super(RandomFlipMonoCon, self).__call__(input_dict)
-
+        #import ipdb; ipdb.set_trace()
         if self.sync_2d:
             input_dict['pcd_horizontal_flip'] = input_dict['flip']
             input_dict['pcd_vertical_flip'] = False
@@ -1448,14 +1450,14 @@ class RandomFlipMonoCon(RandomFlip):
                 flip_vertical = True if np.random.rand(
                 ) < self.flip_ratio_bev_vertical else False
                 input_dict['pcd_vertical_flip'] = flip_vertical
-
+        #import ipdb; ipdb.set_trace()
         if 'transformation_3d_flow' not in input_dict:
             input_dict['transformation_3d_flow'] = []
-
+        #import ipdb; ipdb.set_trace()
         if input_dict['pcd_horizontal_flip']:
             self.random_flip_data_3d(input_dict, 'horizontal')
             input_dict['transformation_3d_flow'].extend(['HF'])
-
+        #import ipdb; ipdb.set_trace()
         return input_dict
 
     def __repr__(self):
@@ -1546,7 +1548,7 @@ class RandomShiftMonoCon:
 
                     if 'gt_labels_3d' in results:
                         results['gt_labels_3d'] = results['gt_labels_3d'][valid_inds]
-
+                    #import ipdb; ipdb.set_trace()
                     if 'gt_bboxes_3d' in results:
                         box_3d_tensor = results['gt_bboxes_3d'].tensor
                         assert box_3d_tensor.shape[-1] == 7
